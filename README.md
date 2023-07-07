@@ -6,3 +6,34 @@
 
 <div align=center><h1>Norske Nøkkelsnikere</h1></div>
 Norske Nøkkelsnikere is a Norwegian CTF team
+
+# Writeups
+<!--
+
+;; This is just a silly little elisp program I wrote to generate an
+;; index. I won't get mad if you replace or delete this haha ;)
+;;
+;; I'm sure this could be solved with a shellscript one-liner...
+(save-excursion
+ ;; Delete old index, super brittle code....
+ (forward-line)
+ (end-of-line)
+ (delete-region (point) (point-max))
+ (newline)
+
+ ;; Generate new index
+ (->>
+  ;; Might be better to use `$ git ls-files`
+  (directory-files-recursively (concat default-directory "writeups") "")
+  (mapcar (-rpartial 'file-relative-name default-directory))gcc
+
+  ;; The following line is equivalent to
+  ;; (seq-filter (-compose 'not (-partial 's-prefix? ".")))
+  (seq-remove (-partial 's-prefix? "."))
+  (seq-remove (-partial 'equal "README.md"))
+  (mapcar (lambda (path) (concat "- [" path "]" "(" path ")")))
+  (s-join "\n")
+  insert))
+ -->
+- [writeups/2023/tjctf-2023/web-ez-sql.md](writeups/2023/tjctf-2023/web-ez-sql.md)
+- [writeups/2023/uiuctf-2023/misc-vimjail.md](writeups/2023/uiuctf-2023/misc-vimjail.md)
